@@ -17,7 +17,7 @@ class CategoriaResource extends JsonResource
         return [
             'id' => $this->id,
             'nombre' => $this->nombre,
-            'descripcion' => $this->descripcion
+            'icono' => $this->icono
         ];
     }
 }
