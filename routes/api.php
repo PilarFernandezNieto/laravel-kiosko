@@ -8,9 +8,14 @@ use Illuminate\Support\Facades\Route;
 
 
 // Todas las rutas que se coloquen en este middleware, necesitaran un token de autenticación
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::post('/logout', [AuthController::class, 'logout'] );
+
+});
+
 
 //Route::get('/categorias', [CategoriaController::class, 'index']);
 /** apiResource engloba todos los verbos que engloban las peticiones : GET, POST, PUT, DELETE */

@@ -23,8 +23,9 @@ class AuthController extends Controller
         ]);
         // Respuesta
         return [
-            'token' => $user->createToken('auth_token')->plainTextToken,
             'user' => $user,
+            'type' => 'success',
+            'mensaje' => 'Usuario creado correctamente'
         ];
     }
     public function login(LoginRequest $request)
@@ -49,5 +50,12 @@ class AuthController extends Controller
 
 
 
-    public function logout(Request $request) {}
+    public function logout(Request $request) {
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
+
+        return [
+            'user' => null
+        ];
+    }
 }

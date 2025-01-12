@@ -38,7 +38,8 @@ class RegistroRequest extends FormRequest
             "email.required" => "El email es obligatorio",
             "email.email" => "El email no es válido",
             "email.unique" => "El email ya está en uso",
-            "password" => "La contraseña es obligatoria",
+            "password.required" => "La contraseña es obligatoria",
+            "password.confirmed"  => "Las contraseñas no coinciden"
         ];
     }
 }
