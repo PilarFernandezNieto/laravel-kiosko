@@ -1,11 +1,13 @@
 <?php
 
 /** TODO:  php artisan make:model Producto --resource --api --migration CREA EL MODELO, LA MIGRACION Y EL CONTROLADOR CON LOS METODOS DE LA API */
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductoCollection;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductoController extends Controller
 {
@@ -14,9 +16,15 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        /** para la paginación */
-        // return new ProductoCollection(Producto::where('disponible', 1)->orderBy('id', 'desc')->paginate(10));
+        //return "desde index";
         return new ProductoCollection(Producto::where('disponible', 1)->orderBy('id', 'desc')->get());
+
+    }
+    public function indexAdmin()
+    {
+
+        //return "desde indexAdmin";
+        return new ProductoCollection(Producto::orderBy('id', 'desc')->paginate(9));
     }
 
     /**
@@ -40,7 +48,11 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //
+        $producto->disponible = 0;
+        $producto->save();
+        return [
+            'producto' => $producto
+        ];
     }
 
     /**

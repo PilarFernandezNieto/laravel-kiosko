@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,17 +16,22 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::post('/logout', [AuthController::class, 'logout']);
 
+
+    /** apiResource engloba todos los verbos que engloban las peticiones : GET, POST, PUT, DELETE
+     * VISITAR DOCUMENTACION LARAVEL PARA VER NOMBRES DE METODOS
+    */
+
     // Almacenar pedidos
     Route::apiResource('/pedidos', PedidoController::class);
-    //Route::get('/categorias', [CategoriaController::class, 'index']);
-    /** apiResource engloba todos los verbos que engloban las peticiones : GET, POST, PUT, DELETE */
+    // Muestra categorías y productos en la zona pública (usuarios autenticados)
     Route::apiResource('categorias', CategoriaController::class);
     Route::apiResource('productos', ProductoController::class);
 });
 
-
-
-
+// Listado de productos para el admin
+Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
+    Route::get('/admin/productos', [ProductoController::class, 'indexAdmin']);
+});
 
 // Autenticación
 Route::post('/registro', [AuthController::class, 'register']);
