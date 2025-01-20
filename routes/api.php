@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
 // Listado de productos para el admin
 Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
     Route::get('/admin/productos', [ProductoController::class, 'indexAdmin']);
+    Route::post('/admin/productos', [ProductoController::class, 'store']);
 });
 
 // Autenticación
