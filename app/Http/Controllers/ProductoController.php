@@ -35,11 +35,20 @@ class ProductoController extends Controller
     {
         $data = $request->validated();
         $imagen = $request->imagen->store('imagenes', "public");
-        $data['imagen'] = str_replace('imagenes/', '', $imagen);
+
+        $data['imagen'] = asset('storage/' . $imagen);
+
+        $producto = Producto::create([
+            'nombre' =>  $data['nombre'],
+            'imagen' => $data['imagen'],
+            'disponible' => $data['disponible'],
+            'precio' => $data['precio'],
+            'categoria_id' => $data['categoria_id']
+        ]);
 
         return [
-            "imagen" => $imagen,
-            "data" => $data
+          'producto' =>$producto,
+          'message' => "Producto creado correctamente"
         ];
     }
 
