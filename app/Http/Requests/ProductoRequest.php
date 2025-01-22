@@ -23,7 +23,7 @@ class ProductoRequest extends FormRequest
     {
         return [
             'nombre' => ['required', 'string', 'max:255'],
-            'imagen' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
+            'imagen' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
             'precio' => ['required'],
             'disponible' => ['nullable', 'boolean'],
             'categoria_id' => ['required', 'integer']
@@ -33,7 +33,7 @@ class ProductoRequest extends FormRequest
     public function messages()
     {
         return [
-            'nombre' => 'El nmbre del producto es obligatorio',
+            'nombre' => 'El nombre del producto es obligatorio',
             'imagen.required' => 'La imagen es obligatoria',
             'imagen.image' => 'Introduce una imagen valida',
             'precio' => 'Debe introducir un precio',

@@ -4,11 +4,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductoRequest;
-use App\Http\Resources\ProductoCollection;
+use Log;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ProductoRequest;
+use App\Http\Resources\ProductoCollection;
 
 class ProductoController extends Controller
 {
@@ -19,7 +20,6 @@ class ProductoController extends Controller
     {
         //return "desde index";
         return new ProductoCollection(Producto::where('disponible', 1)->orderBy('id', 'desc')->get());
-
     }
     public function indexAdmin()
     {
@@ -47,8 +47,8 @@ class ProductoController extends Controller
         ]);
 
         return [
-          'producto' =>$producto,
-          'message' => "Producto creado correctamente"
+            'producto' => $producto,
+            'message' => "Producto creado correctamente"
         ];
     }
 
@@ -57,18 +57,37 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        //
+        return $producto;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Producto $producto)
+    public function update(ProductoRequest $request, Producto $producto)
     {
-        $producto->disponible = 0;
-        $producto->save();
+
+
+        $data = $request->validated();
+        // Si se envió una nueva imagen, reemplazar la imagen existente
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->imagen->store('imagenes', 'public');
+            $data['imagen'] = asset('storage/' . $imagen);
+        } else {
+            // Mantener la imagen existente si no se envió una nueva
+            $data['imagen'] = $producto->imagen;
+        }
+
+        // Actualizar el producto
+        $producto->update([
+            'nombre' => $data['nombre'],
+            'imagen' => $data['imagen'],
+            'disponible' => $data['disponible'] ?? $producto->disponible,
+            'precio' => $data['precio'],
+            'categoria_id' => $data['categoria_id'],
+        ]);
+
         return [
-            'producto' => $producto
+            'producto' => $data
         ];
     }
 

@@ -17,7 +17,7 @@ class IsAdmin
     {
         $user = $request->user();
 
-        if($user && !$user->admin === 1){
+        if($user && $user->admin !== 1){
             return response()->json([
                 'error' => 'Acceso denegado.',
             ], 403);
