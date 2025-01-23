@@ -25,7 +25,7 @@ class ProductoController extends Controller
     {
 
         //return "desde indexAdmin";
-        return new ProductoCollection(Producto::orderBy('id', 'desc')->paginate(9));
+        return new ProductoCollection(Producto::orderBy('categoria_id', 'desc')->paginate(9));
     }
 
     /**
@@ -96,6 +96,10 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        $producto->delete();
+        return [
+            'producto' => $producto,
+            'message' => "Producto eliminado correctamente"
+        ];
     }
 }
