@@ -35,6 +35,7 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
     Route::put('/admin/productos/{producto}', [ProductoController::class, 'update']);
     Route::delete('/admin/productos/{producto}', [ProductoController::class, 'destroy']);
     Route::post('/admin/categorias', [CategoriaController::class, 'store']);
+    Route::put('/admin/categorias/{categoria}', [CategoriaController::class, 'update']);
 
 });
 

@@ -65,8 +65,6 @@ class ProductoController extends Controller
      */
     public function update(ProductoRequest $request, Producto $producto)
     {
-
-
         $data = $request->validated();
         // Si se envió una nueva imagen, reemplazar la imagen existente
         if ($request->hasFile('imagen')) {
@@ -87,7 +85,7 @@ class ProductoController extends Controller
         ]);
 
         return [
-            'producto' => $data
+            'producto' => $producto
         ];
     }
 
