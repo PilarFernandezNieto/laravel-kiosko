@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://vue-kiosko.vercel.app'),
 
     /*
     |--------------------------------------------------------------------------
